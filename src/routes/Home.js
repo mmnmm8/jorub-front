@@ -5,17 +5,24 @@ import Board from '../components/Board';
 function Home() {
   const [posts, setPosts] = useState([]);
 
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   const navigate = useNavigate();
 
   const keywordHandler = (e) => {
-    setSearchKeyword(e.target.value);
+    setSearchInput(e.target.value);
   };
 
   const onSearch = () => {
-    //검색
-    const getValue = searchKeyword.toLowerCase();
+    setFilteredPosts(
+      posts.filter((post) => {
+        return post.title.toUpperCase().includes(searchInput.toUpperCase());
+      })
+    );
+    setSearching(true);
+    setSearchInput('');
   };
 
   const createClub = () => {
@@ -31,6 +38,7 @@ function Home() {
         setPosts(res.clubs);
       });
   }, []);
+
   console.log(posts);
 
   return (
@@ -40,7 +48,7 @@ function Home() {
 
       <input
         type="text"
-        value={searchKeyword}
+        value={searchInput}
         placeholder="검색어를 입력하세요"
         onChange={keywordHandler}
       />
@@ -48,19 +56,30 @@ function Home() {
 
       <table>
         <thead>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>날짜</th>
+          <tr>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+          </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
-            <Board
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              date={post.createdDate}
-            />
-          ))}
+          {searching
+            ? filteredPosts.map((post) => (
+                <Board
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  date={post.createdDate}
+                />
+              ))
+            : posts.map((post) => (
+                <Board
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  date={post.createdDate}
+                />
+              ))}
         </tbody>
       </table>
 
