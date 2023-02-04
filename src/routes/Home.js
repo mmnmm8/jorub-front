@@ -35,7 +35,7 @@ function Home() {
     })
       .then((res) => res.json())
       .then((res) => {
-        setPosts(res.clubs);
+        setPosts(res);
       });
   }, []);
 
@@ -64,7 +64,8 @@ function Home() {
         </thead>
         <tbody>
           {searching
-            ? filteredPosts.map((post) => (
+            ? filteredPosts &&
+              filteredPosts.map((post) => (
                 <Board
                   key={post.id}
                   id={post.id}
@@ -72,7 +73,8 @@ function Home() {
                   date={post.createdDate}
                 />
               ))
-            : posts.map((post) => (
+            : posts &&
+              posts.map((post) => (
                 <Board
                   key={post.id}
                   id={post.id}
