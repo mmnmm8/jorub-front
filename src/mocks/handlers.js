@@ -9,13 +9,13 @@ const handlers = [
   rest.post('http://localhost:8080/clubs/new', (req, res, ctx) => {
     posts.push(req.json); //불필요
     console.log(posts);
-    return res(ctx.status(201));
+    return res(ctx.status(200), ctx.json({ id: '5' }));
   }),
 
   //PUT
   rest.put('http://localhost:8080/clubs/:id', (req, res, ctx) => {
     updatePosts.push(req.json); //불필요
-    return res(ctx.status(202));
+    return res(ctx.status(200));
   }),
 
   // Handles a GET /user request
@@ -66,7 +66,7 @@ const handlers = [
   //DELETE
   rest.delete('http://localhost:8080/clubs/:id', (req, res, ctx) => {
     const { id } = req.params;
-    return res(ctx.status(204), ctx.delay(1000));
+    return res(ctx.status(200), ctx.delay(1000));
   }),
 ];
 

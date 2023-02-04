@@ -44,13 +44,12 @@ function UpdateClub() {
       },
       body: JSON.stringify(request_data),
     })
-      // .then((res) => res.json()) //에러 원인
+      .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        console.log(res.body.id); //id 받아오기
 
-        if (res.status === 202) {
-          const userId = res.body.id;
+        if (res.status === 200) {
+          const userId = res.id;
           navigate(`/clubs/${userId}`);
         } else {
           alert('그룹 수정에 실패했습니다');
