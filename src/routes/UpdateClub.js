@@ -43,18 +43,16 @@ function UpdateClub() {
         'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify(request_data),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-
-        if (res.status === 200) {
+    }).then((res) => {
+      if (res.status === 200) {
+        res.json().then((res) => {
           const userId = res.id;
           navigate(`/clubs/${userId}`);
-        } else {
-          alert('그룹 수정에 실패했습니다');
-        }
-      });
+        });
+      } else {
+        alert('그룹 수정에 실패했습니다');
+      }
+    });
 
     resetInput();
   };
