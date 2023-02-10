@@ -4,6 +4,8 @@ import UpdateClub from './routes/UpdateClub';
 import ClubDetail from './routes/ClubDetail';
 
 import Home from './routes/Home';
+import Login from './routes/Login';
+import OAuthRedirectHandler from './components/OAuthRedirectHandler';
 
 function App() {
   return (
@@ -13,6 +15,11 @@ function App() {
         <Route path="/clubs/update/:id" element={<UpdateClub />} />
         <Route path="/clubs/:id" element={<ClubDetail />} />
         <Route path="/clubs" element={<Home />} />
+        <Route
+          path="/oauth/callback/kakao"
+          element={<OAuthRedirectHandler />}
+        />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
