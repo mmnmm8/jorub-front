@@ -33,7 +33,7 @@ function NewClub() {
 
     const request_data = { title: title, contents: contents, url: url };
 
-    fetch('http://localhost:8080/clubs/new', {
+    fetch('/clubs/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

@@ -30,7 +30,7 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8080/clubs', {
+    fetch('/clubs', {
       method: 'GET',
     })
       .then((res) => res.json())

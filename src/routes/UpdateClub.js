@@ -37,7 +37,7 @@ function UpdateClub() {
   const postUpdateHandler = (e) => {
     e.preventDefault();
     const request_data = { title: title, contents: contents, url: url };
-    fetch(`http://localhost:8080/clubs/${id}`, {
+    fetch(`/clubs/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

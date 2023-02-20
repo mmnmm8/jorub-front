@@ -5,11 +5,13 @@ import ReactPlayer from 'react-player';
 function ClubDetail() {
   const { id } = useParams();
   const [detail, setDetail] = useState({});
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState('');
 
   const navigate = useNavigate();
 
   const deleteClub = () => {
-    fetch(`http://localhost:8080/clubs/${id}`, {
+    fetch(`/clubs/${id}`, {
       method: 'DELETE',
     });
     //   .then((res) => {
@@ -30,8 +32,10 @@ function ClubDetail() {
     navigate('/clubs');
   };
 
+  const postComment = () => {};
+
   useEffect(() => {
-    fetch(`http://localhost:8080/clubs/${id}`, {
+    fetch(`/clubs/${id}`, {
       method: 'GET',
     })
       .then((res) => res.json())
@@ -72,8 +76,17 @@ function ClubDetail() {
       </Link>
       <button onClick={deleteClub}>삭제</button>
       <button onClick={backToClubs}>목록</button>
-      <p>comment</p>
-      <div></div>
+
+      <div>
+        <p>Comments</p>
+        <input
+          type="text"
+          value={comment}
+          placeholder="댓글을 입력하세요"
+        ></input>
+
+        <button onClick={postComment}>등록</button>
+      </div>
     </div>
   );
 }
