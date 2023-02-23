@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import Comment from '../components/Comment';
 
 function ClubDetail() {
   const { id } = useParams();
+  const { clubId } = useParams();
+
   const [detail, setDetail] = useState({});
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
@@ -32,7 +35,36 @@ function ClubDetail() {
     navigate('/clubs');
   };
 
-  const postComment = () => {};
+  const resetInput = () => {
+    setComment('');
+  };
+
+  const commentHandler = (e) => {
+    setComment(e.target.value);
+  };
+
+  const request_data = { clubId: clubId, contents: comment };
+
+  const postComment = () => {
+    fetch(`/comments/new/${clubId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify(request_data),
+    }).then((res) => {
+      if (res.status === 200) {
+        res.json().then((res) => {
+          // const modifiedDate = res.modifiedDate;
+          // 댓글 등록후 response?
+        });
+      } else {
+        alert('댓글 등록에 실패했습니다');
+      }
+    });
+
+    resetInput();
+  };
 
   useEffect(() => {
     fetch(`/clubs/${id}`, {
@@ -43,8 +75,18 @@ function ClubDetail() {
         // console.log(res);
         setDetail(res);
       });
+
+    fetch(`/comments/${clubId}`, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log(res);
+        setComments(res.commentList);
+      });
   }, []);
   console.log(detail);
+  console.log(comments);
 
   return (
     <div>
@@ -79,13 +121,29 @@ function ClubDetail() {
 
       <div>
         <p>Comments</p>
+
         <input
           type="text"
           value={comment}
+          onChange={commentHandler}
           placeholder="댓글을 입력하세요"
         ></input>
-
         <button onClick={postComment}>등록</button>
+
+        <div>
+          {comments &&
+            comments.map((comment) => (
+              <Comment
+                key={comment.userId}
+                clubId={comment.clubId}
+                userId={comment.userId}
+                commentId={comment.commentId}
+                updatedAt={comment.updatedAt}
+                userName={comment.userName}
+                contents={comment.contents}
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
